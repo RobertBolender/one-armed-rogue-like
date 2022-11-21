@@ -23,10 +23,10 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
     - run: npm ci
     - run: npm run build
-    - run: ls -a /home/runner/work/one-armed-rogue-like/one-armed-rogue-like/dist
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
+        allow_empty_commit: true
