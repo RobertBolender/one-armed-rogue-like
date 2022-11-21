@@ -30,11 +30,7 @@ export function App() {
       {showWarning && <div class="warning">Sorry, that doesn't work yet.</div>}
       <div class="screen">
         <img src={gameLogo} class="logo" alt="One-Armed Rogue-Like Logo" />
-        <h1>
-          One-Armed
-          <br />
-          Rogue-Like
-        </h1>
+        <h1>One-Armed Rogue-Like</h1>
       </div>
       <div class="card">
         <ul class="choices">
