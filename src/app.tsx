@@ -1,32 +1,56 @@
-import { useState } from "preact/hooks";
-import preactLogo from "./assets/preact.svg";
+import { useCallback, useState } from "preact/hooks";
 import "./app.css";
 
 export function App() {
-  const [count, setCount] = useState(0);
-
+  const [index, setIndex] = useState(0);
+  const [showWarning, setShowWarning] = useState(false);
+  const Down = useCallback(() => {
+    setIndex((index) => {
+      if (index > 3) {
+        return 0;
+      }
+      return index + 1;
+    });
+  }, []);
+  const Right = useCallback(() => {
+    console.log(`current index: ${index}`);
+    setShowWarning(true);
+    setTimeout(() => {
+      setShowWarning(false);
+    }, 3000);
+  }, [index]);
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://preactjs.com" target="_blank">
-          <img src={preactLogo} class="logo preact" alt="Preact logo" />
-        </a>
+      {showWarning && <div class="warning">Sorry, that doesn't work yet.</div>}
+      <div class="screen">
+        <img src="/logo.png" class="logo" alt="Vite logo" />
+        <h1>
+          One-Armed
+          <br />
+          Rogue-Like
+        </h1>
       </div>
-      <h1>Vite + Preact</h1>
       <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/app.tsx</code> and save to test HMR
-        </p>
+        <ul class="choices">
+          <li class={index == 0 ? "active" : ""}>New Game</li>
+          <li class={index == 1 ? "active" : ""}>How to Play</li>
+          <li class={index == 2 ? "active" : ""}>Options</li>
+          <li class={index == 3 ? "active" : ""}>Achievements</li>
+          <li class={index == 4 ? "active" : ""}>Credits</li>
+        </ul>
       </div>
-      <p class="read-the-docs">
-        Click on the Vite and Preact logos to learn more
-      </p>
+      <div class="details">
+        <div>Play one-handed!</div>
+        <div>There are only two buttons! 👇</div>
+      </div>
+      <div class="buttons">
+        <button onClick={Down}>&nbsp;</button>
+        <button onClick={Right}>&nbsp;</button>
+      </div>
+      <div class="visible-buttons">
+        <button>⬇️</button>
+        <button>➡️</button>
+      </div>
     </>
   );
 }

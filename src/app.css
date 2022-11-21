@@ -1,13 +1,17 @@
 #app {
-  max-width: 1280px;
+  width: 100%;
+  max-width: 400px;
+  padding: 1em;
+  min-width: 260px;
   margin: 0 auto;
-  padding: 2rem;
+  min-height: 100vh;
   text-align: center;
+  position: relative;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  height: 5em;
+  padding: 0.5em;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
@@ -16,10 +20,85 @@
   filter: drop-shadow(0 0 2em #673ab8aa);
 }
 
-.card {
-  padding: 2em;
+.warning {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #ff9800;
+  color: #fff;
+  padding: 0.25em;
+  font-weight: 700;
+  text-align: center;
 }
 
-.read-the-docs {
-  color: #888;
+.screen {
+  padding: 1em;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.card {
+  padding: 1em 0;
+}
+
+.choices {
+  text-align: left;
+  list-style-type: none;
+  padding-left: 32px;
+  margin: 0;
+  min-height: 120px;
+}
+
+.choices li {
+  position: relative;
+}
+
+.choices > li.active::before {
+  content: "➡️";
+  position: absolute;
+  left: -24px;
+}
+
+.more {
+  color: #b3b3b3;
+}
+
+.more.more-above::before {
+  content: "⬆️";
+  position: absolute;
+  left: -24px;
+  margin-bottom: 4px;
+}
+
+.more.more-below::before {
+  content: "⬇️";
+  position: absolute;
+  left: -24px;
+  margin-top: 4px;
+}
+
+.details {
+  padding: 1em;
+  background-color: #242424;
+  margin: 0 1em;
+  text-align: left;
+  border: 1px solid #eaeaea;
+}
+
+.buttons, .visible-buttons {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.visible-buttons {
+  z-index: -100;
+}
+
+.buttons {
+  z-index: 100;
 }
