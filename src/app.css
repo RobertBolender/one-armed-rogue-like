@@ -37,6 +37,10 @@
   border-bottom: 1px solid #eaeaea;
 }
 
+.align-left {
+  text-align: left;
+}
+
 .card {
   padding: 1em 0;
 }
