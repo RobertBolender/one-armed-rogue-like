@@ -5,7 +5,8 @@ import "./app.css";
 export function App() {
   const [index, setIndex] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
-  const Down = useCallback(() => {
+  const Down = useCallback((event: any) => {
+    event.preventDefault();
     setIndex((index) => {
       if (index > 3) {
         return 0;
@@ -13,13 +14,17 @@ export function App() {
       return index + 1;
     });
   }, []);
-  const Right = useCallback(() => {
-    console.log(`current index: ${index}`);
-    setShowWarning(true);
-    setTimeout(() => {
-      setShowWarning(false);
-    }, 3000);
-  }, [index]);
+  const Right = useCallback(
+    (event: any) => {
+      event.preventDefault();
+      console.log(`current index: ${index}`);
+      setShowWarning(true);
+      setTimeout(() => {
+        setShowWarning(false);
+      }, 3000);
+    },
+    [index]
+  );
   return (
     <>
       {showWarning && <div class="warning">Sorry, that doesn't work yet.</div>}
