@@ -1,4 +1,5 @@
 import { useCallback, useState } from "preact/hooks";
+import gameLogo from "/logo.png";
 import "./app.css";
 
 export function App() {
@@ -23,7 +24,7 @@ export function App() {
     <>
       {showWarning && <div class="warning">Sorry, that doesn't work yet.</div>}
       <div class="screen">
-        <img src="/logo.png" class="logo" alt="Vite logo" />
+        <img src={gameLogo} class="logo" alt="One-Armed Rogue-Like Logo" />
         <h1>
           One-Armed
           <br />
