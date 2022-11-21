@@ -20,5 +20,6 @@ jobs:
       with:
         node-version: '18.x'
         cache: 'npm'
+        github_token: ${{ secrets.GITHUB_TOKEN }}
     - run: npm ci
     - run: npm run deploy
