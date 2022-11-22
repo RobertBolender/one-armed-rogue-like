@@ -21,13 +21,13 @@ function gameStateReducer(state: any, action: any) {
         return state;
       }
       const newStack = state.stack.slice(0, -1);
-      const newScreen = state.stack[state.stack.length - 1];
+      const popped = state.stack[state.stack.length - 1];
       return {
         ...state,
-        activeIndex: 0,
-        choices: calculateChoices({ ...state, screen: newScreen }),
+        activeIndex: popped.activeIndex,
+        choices: calculateChoices({ ...state, screen: popped.screen }),
         stack: newStack,
-        screen: newScreen,
+        screen: popped.screen,
       };
     case "START_GAME":
       return {
@@ -46,7 +46,10 @@ function gameStateReducer(state: any, action: any) {
         ...state,
         activeIndex: 0,
         choices: calculateChoices({ ...state, screen: "credits" }),
-        stack: [...state.stack, state.screen],
+        stack: [
+          ...state.stack,
+          { screen: state.screen, activeIndex: state.activeIndex },
+        ],
         screen: "credits",
       };
     default:
