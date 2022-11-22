@@ -2,6 +2,7 @@ import { useCallback, useReducer, useState } from "preact/hooks";
 import gameLogo from "/logo.png";
 import "./app.css";
 import type { JSXInternal } from "preact/src/jsx";
+import { useWarning } from "./use-warning";
 
 function gameStateReducer(state: any, action: any) {
   console.log("Receiving dispatch", action.type);
@@ -65,6 +66,7 @@ function calculateChoices(gameState: any = {}): Choice[] {
         {
           text: "New Game",
           action: "START_GAME",
+          warning: "Sorry, the game isn't ready yet.",
           details: (
             <>
               <div>Play one-handed!</div>
@@ -75,6 +77,7 @@ function calculateChoices(gameState: any = {}): Choice[] {
         {
           text: "How to Play",
           action: "VIEW_HOW_TO_PLAY",
+          warning: "You'll figure it out!",
           details: (
             <>
               <div>Use the two buttons!</div>
@@ -84,6 +87,7 @@ function calculateChoices(gameState: any = {}): Choice[] {
         {
           text: "Options",
           action: "VIEW_OPTIONS",
+          warning: "Sorry, there are no options.",
           details: (
             <>
               <div>There are no options!</div>
@@ -93,6 +97,7 @@ function calculateChoices(gameState: any = {}): Choice[] {
         {
           text: "Achievements",
           action: "VIEW_ACHIEVEMENTS",
+          warning: "Achievement unlocked: Disappointment",
           details: (
             <>
               <div>There are no achievements!</div>
@@ -161,6 +166,7 @@ function Screen({ gameState }: { gameState: any }) {
 type Choice = {
   text: string;
   action: string;
+  warning?: string;
   details?: JSXInternal.Element;
 };
 
@@ -181,8 +187,6 @@ function Choices({
 }
 
 export function App() {
-  const [showWarning, setShowWarning] = useState(false);
-
   const [gameState, dispatch] = useReducer(
     gameStateReducer,
     null,
@@ -196,6 +200,8 @@ export function App() {
     dispatch({ type: "DOWN" });
   }, []);
 
+  const [currentWarning, showWarning] = useWarning();
+
   const Right = useCallback(
     (event: any) => {
       event.preventDefault();
@@ -204,17 +210,14 @@ export function App() {
         dispatch({ type: choice.action });
         return;
       }
-      setShowWarning(true);
-      setTimeout(() => {
-        setShowWarning(false);
-      }, 3000);
+      showWarning(choice.warning);
     },
     [choices, activeIndex]
   );
 
   return (
     <>
-      {showWarning && <div class="warning">Sorry, that doesn't work yet.</div>}
+      {currentWarning && <div class="warning">{currentWarning}</div>}
       <Screen gameState={gameState} />
       <div class="card">
         <Choices choices={choices} activeIndex={activeIndex} />
