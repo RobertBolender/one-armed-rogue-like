@@ -13,20 +13,17 @@ export function useGameState() {
 function gameStatePersistenceMiddleware(state: any, action: any) {
   const gameState = gameStateReducer(state, action);
   const { choices, ...persistedState } = gameState;
-  console.log("Persisting state", persistedState);
   localStorage.setItem("gameState", JSON.stringify(persistedState));
   return gameState;
 }
 
 function gameStateReducer(state: any, action: any) {
-  console.log("Receiving dispatch", action.type);
   switch (action.type) {
     case "DOWN":
       const newIndex =
         state.activeIndex >= state.choices.length - 1
           ? 0
           : state.activeIndex + 1;
-      console.log({ state });
       return {
         ...state,
         activeIndex: newIndex,
@@ -146,7 +143,6 @@ function createInitialGameState() {
     if (savedState) {
       const restoredState = JSON.parse(savedState);
       restoredState.choices = calculateChoices(restoredState);
-      console.log("Restored state from localstorage", restoredState);
       return restoredState;
     }
   } catch (e) {
