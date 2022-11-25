@@ -1,9 +1,12 @@
-body, #app {
+body {
   position: fixed;
   height: 100%;
+  width: 100%;
 }
 
 #app {
+  height: 100%;
+  position: relative;
   width: 100%;
   max-width: 400px;
   padding: 1em;
