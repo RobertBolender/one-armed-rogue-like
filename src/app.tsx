@@ -1,4 +1,5 @@
 import { useCallback } from "preact/hooks";
+import { useHotkeys } from "react-hotkeys-hook";
 import gameLogo from "/logo.png";
 import "./app.css";
 import type { JSXInternal } from "preact/src/jsx";
@@ -80,6 +81,9 @@ export function App() {
     },
     [choices, activeIndex]
   );
+
+  useHotkeys("down, s", Down, [Down]);
+  useHotkeys("right, d", Right, [Right]);
 
   return (
     <>

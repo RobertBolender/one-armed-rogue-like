@@ -11,7 +11,8 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "preact": "^10.11.2"
+    "preact": "^10.11.2",
+    "react-hotkeys-hook": "^4.0.4"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.4.0",
