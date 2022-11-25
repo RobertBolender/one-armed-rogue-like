@@ -4,6 +4,7 @@ import "./app.css";
 import type { JSXInternal } from "preact/src/jsx";
 import { useWarning } from "./use-warning";
 import { useGameState } from "./use-game-state";
+import { useHotkeys } from "./use-hotkeys";
 
 function Screen({ gameState }: { gameState: any }) {
   switch (gameState.screen) {
@@ -77,6 +78,16 @@ export function App() {
         return;
       }
       showWarning(choice.warning);
+    },
+    [choices, activeIndex]
+  );
+
+  useHotkeys(
+    {
+      ArrowDown: Down,
+      s: Down,
+      ArrowRight: Right,
+      d: Right,
     },
     [choices, activeIndex]
   );
