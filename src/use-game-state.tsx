@@ -1,4 +1,5 @@
 import { useReducer } from "preact/hooks";
+import type { Choice } from "./choice";
 
 export function useGameState() {
   const [gameState, dispatch] = useReducer(

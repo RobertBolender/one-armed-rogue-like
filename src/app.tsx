@@ -1,10 +1,10 @@
 import { useCallback } from "preact/hooks";
 import gameLogo from "/logo.png";
 import "./app.css";
-import type { JSXInternal } from "preact/src/jsx";
 import { useWarning } from "./use-warning";
 import { useGameState } from "./use-game-state";
 import { useHotkeys } from "./use-hotkeys";
+import type { Choice } from "./choice";
 
 function Screen({ gameState }: { gameState: any }) {
   switch (gameState.screen) {
@@ -33,13 +33,6 @@ function Screen({ gameState }: { gameState: any }) {
       return <div class="screen">Unknown screen: {gameState.screen}</div>;
   }
 }
-
-type Choice = {
-  text: string;
-  action: string;
-  warning?: string;
-  details?: JSXInternal.Element;
-};
 
 function Choices({
   choices,
@@ -99,7 +92,7 @@ export function App() {
       <div class="card">
         <Choices choices={choices} activeIndex={activeIndex} />
       </div>
-      {choices[activeIndex].details && (
+      {choices[activeIndex]?.details && (
         <div class="details">{choices[activeIndex].details}</div>
       )}
       <div class="buttons">
