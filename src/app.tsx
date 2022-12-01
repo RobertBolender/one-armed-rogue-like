@@ -44,7 +44,9 @@ function Screen({ gameState }: { gameState: any }) {
           </p>
           <p>
             Robert found that he was limited in the games he could play while
-            holding his sleeping son, so he made this game.
+            holding his sleeping son, so he tried to make this game.
+            But he also found that his time was as limited as his hands,
+            so he never finished the game.
           </p>
         </div>
       );
