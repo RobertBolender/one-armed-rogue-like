@@ -8,6 +8,17 @@ type Conversation = {
 }
 
 const conversations: Record<string, Conversation> = {
+    "unfinished": {
+        enemy: "🚧",
+        emoji: "👷",
+        text: "This game is still under construction. Please check back later!",
+        choices: [
+            {
+                text: "Return to the main menu",
+                action: "RETURN_TO_MAIN_MENU",
+            },
+        ],
+    },
     "intro0": {
         enemy: "🚪🚪",
         emoji: "🟡",
@@ -31,8 +42,9 @@ const conversations: Record<string, Conversation> = {
         "text": "You died a horrible painful death. What did you expect would happen?",
         "choices": [
             {
-                "text": "Return to Main Menu",
-                "action": "RETURN_TO_MAIN_MENU",
+                "text": "Continue",
+                "action": "MOVE",
+                "payload": "unfinished",
             },
         ],
     },
