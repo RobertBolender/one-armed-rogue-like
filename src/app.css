@@ -54,6 +54,40 @@ body {
   border-bottom: 1px solid #eaeaea;
 }
 
+.intro {
+  font-size: 3em;
+  padding: 1rem;
+  display: grid;
+  grid-template:
+    "head head head head enemy enemy" 40px
+    "head head head head enemy enemy" 40px
+    "emoji emoji foot foot foot foot" 40px
+    "emoji emoji foot foot foot foot" 40px
+    "text text text text text text" auto / 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.enemy {
+  grid-area: enemy;
+}
+
+.emoji {
+  grid-area: emoji;
+}
+
+.enemy, .emoji {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  font-size: 1rem;
+  margin: 0;
+  grid-area: text;
+  text-align: left;
+  line-height: 1.2;
+}
+
 .align-left {
   text-align: left;
 }

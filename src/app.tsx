@@ -5,6 +5,7 @@ import { useWarning } from "./use-warning";
 import { useGameState } from "./use-game-state";
 import { useHotkeys } from "./use-hotkeys";
 import type { Choice } from "./choice";
+import conversations from "./conversations";
 
 function Screen({ gameState }: { gameState: any }) {
   switch (gameState.screen) {
@@ -13,6 +14,18 @@ function Screen({ gameState }: { gameState: any }) {
         <div class="screen">
           <img src={gameLogo} class="logo" alt="One-Armed Rogue-Like Logo" />
           <h1>One-Armed Rogue-Like</h1>
+        </div>
+      );
+    case "intro":
+      if (!conversations[gameState.room]) {
+        return <div class="screen">No conversation for {gameState.room}</div>;
+      }
+      const conversation = conversations[gameState.room];
+      return (
+        <div class="screen intro">
+          <div class="enemy">{conversation.enemy}</div>
+          <div class="emoji">{conversation.emoji}</div>
+          <p class="text">{conversation.text}</p>
         </div>
       );
     case "credits":
@@ -66,11 +79,11 @@ export function App() {
     (event: any) => {
       event.preventDefault();
       const choice = choices[activeIndex];
-      if (["BACK", "VIEW_CREDITS"].includes(choice.action)) {
-        dispatch({ type: choice.action });
+      if (choice.warning) {
+        showWarning(choice.warning);
         return;
       }
-      showWarning(choice.warning);
+      dispatch({ type: choice.action, payload: choice.payload });
     },
     [choices, activeIndex]
   );

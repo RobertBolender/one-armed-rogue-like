@@ -1,11 +1,12 @@
 import { useReducer } from "preact/hooks";
 import type { Choice } from "./choice";
+import conversations from "./conversations";
 
 export function useGameState() {
   const [gameState, dispatch] = useReducer(
     gameStatePersistenceMiddleware,
     null,
-    createInitialGameState
+    loadOrCreateGameState
   );
 
   return [gameState, dispatch];
@@ -13,6 +14,7 @@ export function useGameState() {
 
 function gameStatePersistenceMiddleware(state: any, action: any) {
   const gameState = gameStateReducer(state, action);
+  // The choices are full of React components which have circular references that can't be serialized to JSON.
   const { choices, ...persistedState } = gameState;
   localStorage.setItem("gameState", JSON.stringify(persistedState));
   return gameState;
@@ -38,15 +40,38 @@ function gameStateReducer(state: any, action: any) {
       return {
         ...state,
         activeIndex: popped.activeIndex,
-        choices: calculateChoices({ ...state, screen: popped.screen }),
+        choices: calculateChoices({
+          ...state,
+          screen: popped.screen,
+          room: popped.room,
+        }),
         stack: newStack,
         screen: popped.screen,
+        room: popped.room,
       };
     case "START_GAME":
       return {
         ...state,
         activeIndex: 0,
-        screen: "game",
+        screen: "intro",
+        room: "intro0",
+        choices: calculateChoices({ screen: "intro", room: "intro0" }),
+      };
+    case "MOVE":
+      console.log("MOVE", action.payload);
+      return {
+        ...state,
+        activeIndex: 0,
+        room: action.payload,
+        choices: calculateChoices({ ...state, room: action.payload }),
+        stack: [
+          ...state.stack,
+          {
+            screen: state.screen,
+            room: state.room,
+            activeIndex: state.activeIndex,
+          },
+        ],
       };
     case "END_GAME":
       return {
@@ -54,6 +79,8 @@ function gameStateReducer(state: any, action: any) {
         activeIndex: 0,
         screen: "end",
       };
+    case "RETURN_TO_MAIN_MENU":
+      return createInitialGameState();
     case "VIEW_CREDITS":
       return {
         ...state,
@@ -78,7 +105,6 @@ function calculateChoices(gameState: any = {}): Choice[] {
         {
           text: "New Game",
           action: "START_GAME",
-          warning: "Sorry, the game isn't ready yet.",
           details: (
             <>
               <div>Play one-handed!</div>
@@ -133,12 +159,26 @@ function calculateChoices(gameState: any = {}): Choice[] {
           action: "BACK",
         },
       ];
+    case "intro":
+      if (!conversations[gameState.room]) {
+        return [];
+      }
+      return conversations[gameState.room].choices;
     default:
       return [];
   }
 }
 
 function createInitialGameState() {
+  return {
+    activeIndex: 0,
+    screen: "menu",
+    stack: [],
+    choices: calculateChoices({ screen: "menu" }),
+  };
+}
+
+function loadOrCreateGameState() {
   try {
     const savedState = localStorage.getItem("gameState");
     if (savedState) {
@@ -150,10 +190,5 @@ function createInitialGameState() {
     console.error("Error loading saved game state", e);
   }
 
-  return {
-    activeIndex: 0,
-    screen: "menu",
-    stack: [],
-    choices: calculateChoices({ screen: "menu" }),
-  };
+  return createInitialGameState();
 }
