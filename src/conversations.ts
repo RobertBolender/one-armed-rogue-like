@@ -63,8 +63,7 @@ const conversations: Record<string, Conversation> = {
             },
             {
                 "text": "Return to the previous room",
-                "action": "MOVE",
-                "payload": "intro0",
+                "action": "BACK",
             }
         ],
     },
