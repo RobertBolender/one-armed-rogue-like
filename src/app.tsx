@@ -18,7 +18,13 @@ function Screen({ gameState }: { gameState: any }) {
       );
     case "intro":
       if (!conversations[gameState.room]) {
-        return <div class="screen">No conversation for {gameState.room}</div>;
+        return (
+          <div class="screen error">
+            💥 ERROR:
+            <br />
+            no conversation found for {gameState.room}
+          </div>
+        );
       }
       const conversation = conversations[gameState.room];
       return (

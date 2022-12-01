@@ -178,7 +178,12 @@ function calculateChoices(gameState: any = {}): Choice[] {
       ];
     case "intro":
       if (!conversations[gameState.room]) {
-        return [];
+        return [
+          {
+            text: "Back",
+            action: "BACK",
+          },
+        ];
       }
       return conversations[gameState.room].choices;
     case "useItem":
