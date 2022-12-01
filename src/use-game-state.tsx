@@ -73,6 +73,23 @@ function gameStateReducer(state: any, action: any) {
           },
         ],
       };
+    case "USE_ITEM":
+      return {
+        ...state,
+        activeIndex: 0,
+        stack: [
+          ...state.stack,
+          {
+            screen: state.screen,
+            room: state.room,
+            activeIndex: state.activeIndex,
+          },
+        ],
+        choices: calculateChoices({
+          ...state,
+          screen: "useItem",
+        }),
+      };
     case "END_GAME":
       return {
         ...state,
@@ -164,6 +181,21 @@ function calculateChoices(gameState: any = {}): Choice[] {
         return [];
       }
       return conversations[gameState.room].choices;
+    case "useItem":
+      let itemChoices = gameState.items.map((item: any) => {
+        return {
+          text: item.name,
+          action: "MOVE",
+          payload: `${gameState.room}${item.id}`,
+        };
+      });
+      return [
+        ...itemChoices,
+        {
+          text: "Never mind",
+          action: "BACK",
+        },
+      ];
     default:
       return [];
   }
@@ -174,6 +206,7 @@ function createInitialGameState() {
     activeIndex: 0,
     screen: "menu",
     stack: [],
+    items: [],
     choices: calculateChoices({ screen: "menu" }),
   };
 }

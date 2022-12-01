@@ -71,7 +71,6 @@ const conversations: Record<string, Conversation> = {
             {
                 "text": "Use an item",
                 "action": "USE_ITEM",
-                "payload": "intro2d",
             },
             {
                 "text": "Return to the previous room",
